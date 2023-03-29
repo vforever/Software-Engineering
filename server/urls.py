@@ -19,5 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path("公共url地址", include("子应用目录名.路由模块"))
-    path("book/", include("model.urls")),
+    path("", include("model.urls")),
 ]
