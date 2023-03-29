@@ -12,7 +12,7 @@ class Student(models.Model):
     Rewards = models.TextField(null=True, verbose_name="竞赛获奖")
     SchoolScores = models.CharField(max_length=250, null=True, verbose_name="学习成绩")
     Skills = models.TextField(null=True, verbose_name="技术栈")
-    ScientificExperience = models.TextField(null=False, verbose_name="科研经历")
+    ScientificExperience = models.TextField(null=True, verbose_name="科研经历")
     EnterpriseCertification = models.BooleanField(default=False, verbose_name="企业认证")
     CV = models.CharField(max_length=250, default="", verbose_name="简历")
 
@@ -28,9 +28,9 @@ class Tutor(models.Model):
     Email = models.CharField(max_length=250, null=False, verbose_name="邮箱")
     Password = models.CharField(max_length=250, null=False, verbose_name="密码")
     Majority = models.CharField(max_length=250, null=False, verbose_name="专业方向")
-    Position = models.CharField(max_length=250, null=False, verbose_name="职称")
-    EductionExperience = models.TextField(null=False, verbose_name="教育经历")
-    Paper = models.CharField(max_length=250, null=False, verbose_name="论文发表")
+    Position = models.CharField(max_length=250, null=True, verbose_name="职称")
+    EductionExperience = models.TextField(null=True, verbose_name="教育经历")
+    Paper = models.CharField(max_length=250, null=True, verbose_name="论文发表")
 
     class Meta:
         db_table = "tutor"
