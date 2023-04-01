@@ -8,7 +8,7 @@ class Student(models.Model):
     School = models.CharField(max_length=250, null=False, verbose_name="学校")
     Email = models.CharField(max_length=250, null=False, unique=True, verbose_name="邮箱")
     Password = models.CharField(max_length=250, null=False, verbose_name="密码")
-    Majority = models.CharField(max_length=250, null=False, verbose_name="专业方向")
+    Majority = models.CharField(max_length=250, null=True, verbose_name="专业方向")
     Rewards = models.TextField(null=True, verbose_name="竞赛获奖")
     SchoolScores = models.CharField(max_length=250, null=True, verbose_name="学习成绩")
     Skills = models.TextField(null=True, verbose_name="技术栈")
@@ -27,13 +27,10 @@ class Tutor(models.Model):
     School = models.CharField(max_length=250, null=False, verbose_name="学校")
     Email = models.CharField(max_length=250, null=False, unique=True, verbose_name="邮箱")
     Password = models.CharField(max_length=250, null=False, verbose_name="密码")
-    Majority = models.CharField(max_length=250, null=False, verbose_name="专业方向")
+    Majority = models.CharField(max_length=250, null=True, verbose_name="专业方向")
     Position = models.CharField(max_length=250, null=True, verbose_name="职称")
     EductionExperience = models.TextField(null=True, verbose_name="教育经历")
     Paper = models.CharField(max_length=250, null=True, verbose_name="论文发表")
-
-    def getPassword(self):
-        return self.Password
 
     class Meta:
         db_table = "tutor"

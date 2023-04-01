@@ -104,18 +104,14 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'HOST': '10.192.14.249',  # 数据库主机
-    #     'PORT': 3306,  # 数据库端口
-    #     'USER': 'root',  # 数据库用户名
-    #     'PASSWORD': 'lyffjhzxy0306118',  # 数据库用户密码
-    #     'NAME': 'backend'  # 数据库名字
-    # }
     'default': {
-      'ENGINE': 'django.db.backends.sqlite3',
-      'NAME': BASE_DIR / 'db.sqlite3',
-    }
+         'ENGINE': 'django.db.backends.mysql',
+         'HOST': '10.192.14.249',  # 数据库主机
+         'PORT': 3306,  # 数据库端口
+         'USER': 'root',  # 数据库用户名
+         'PASSWORD': 'lyffjhzxy0306118',  # 数据库用户密码
+         'NAME': 'backend'  # 数据库名字
+     }
 }
 
 
@@ -160,18 +156,16 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-<<<<<<< HEAD
 # 缓存类配置，用来存储Token
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": "redis://localhost:6379",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
-=======
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST= 'smtp.qq.com'#以QQ邮箱为例，SMTP服务器(邮箱需要开通SMTP服务)
@@ -181,4 +175,3 @@ EMAIL_HOST_PASSWORD = 'fzaqdtbxgrqvbaaf' #SMTP服务授权码
 EMAIL_SUBJECT_PREFIX = 'loginCode' #为邮件标题的前缀,默认是'[django]'
 EMAIL_USE_TLS = True #开启安全链接
 DEFAULT_FROM_EMAIL = SERVER_EMAIL = EMAIL_HOST_USER #设置发件人
->>>>>>> c834234cd5a342089673cfc2588bd1109629f054
