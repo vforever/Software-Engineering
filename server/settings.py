@@ -58,16 +58,7 @@ ROOT_URLCONF = 'server.urls'
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_HEADERS = ('*')
-
-CORS_ALLOW_METHODS=[
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
-
+'''
 CORS_ALLOW_HEADERS=[
     'accept',
     'accept-encoding',
@@ -78,6 +69,16 @@ CORS_ALLOW_HEADERS=[
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+]
+'''
+
+CORS_ALLOW_METHODS=[
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
 ]
 
 TEMPLATES = [
@@ -155,3 +156,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# 缓存类配置，用来存储Token
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

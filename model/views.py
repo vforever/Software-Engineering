@@ -1,44 +1,65 @@
 import json
 
-from django.http.response import HttpResponse, JsonResponse
+from django.http.response import JsonResponse
 from . import models
 from . import utils
-def index(request):
-    return HttpResponse("hello world!")
+from . import token
+
 
 def login(request):
-    data = json.loads(request.body.decode('utf8'))
-    auth_type = data.get("authType")
-    email = data.get("Email")
-    password = data.get("Password")
-    data = {
-        "status": "ok"
+    data = json.loads(request.body)
+    email = data.get("userId")
+    password = data.get("password")
+    response = {
+        "result": 0,
+        "token": "",
+        "msg": "",
+        "userType": ""
     }
-    #402 ok
-    #401 密码或者账户错误
-    if auth_type == "student":
-        p = models.Student.objects.get(Email=email)
-        if str(p.Password) == password:
-            data["status"] = 402
-        else:
-            data["status"] = 401
-    elif auth_type == "tutor":
-        p = models.Tutor.objects.filter(Email=email)
-        if (str(p.getPassword()) == password):
-            data["status"] = 402
-        else:
-            data["status"] = 401
-    elif auth_type == "admin":
-        p = models.Administer.objects.filter(Email=email)
-        if (p.Password == password):
-            data["status"] = 402
-        else:
-            data["status"] = 401
-    if data["status"] == 402:
-        request.session['auth_type'] = auth_type
-        request.session['userEmail'] = email
+    students = models.Student.objects.filter(Email=email)
+    tutors = models.Tutor.objects.filter(Email=email)
+    # admins = models.Administer.objects.filter(Email=email)
+    if students.exists():
+        student = models.Student.objects.get(Email=email)
+        if student.Password == password:
+            response["result"] = 1
+            response["token"] = token.create_token(email)
+            response["msg"] = "登录成功"
+            response["userType"] = "student"
+        elif student.Password != password:
+            response["result"] = 0
+            response["msg"] = "密码有误!"
+            response["userType"] = "student"
+        return JsonResponse(response)
+    elif tutors.exists():
+        tutor = models.Tutor.objects.get(Email=email)
+        if tutor.Password == password:
+            response["result"] = 1
+            response["token"] = token.create_token(email)
+            response["msg"] = "登录成功"
+            response["userType"] = "teacher"
+        elif tutor.Password != password:
+            response["result"] = 0
+            response["msg"] = "密码有误!"
+            response["userType"] = "teacher"
+        return JsonResponse(response)
+    ''' 管理员登录  
+    elif admins.exists():
+        admin = models.Administer.objects.get(Email=email)
+        if admin.Password == password:
+            response["result"] = 1
+            response["token"] = token.create_token(email)
+            response["msg"] = "登录成功"
+            response["userType"] = "admin"
+        elif tutor.Password != password:
+            response["result"] = 0
+            response["msg"] = "密码有误!"
+            response["userType"] = "admin"
+        return JsonResponse(response)
+    '''
+    response["msg"] = "用户名不存在!"
+    return JsonResponse(response)
 
-    return JsonResponse(data)
 
 def sign(request):
     print(request.POST)
