@@ -6,13 +6,13 @@ class Student(models.Model):
     ID = models.AutoField(primary_key=True, null=False, verbose_name="主键")
     Name = models.CharField(max_length=250, null=False, verbose_name="姓名")
     School = models.CharField(max_length=250, null=False, verbose_name="学校")
-    Email = models.CharField(max_length=250, null=False, verbose_name="邮箱")
+    Email = models.CharField(max_length=250, null=False, unique=True, verbose_name="邮箱")
     Password = models.CharField(max_length=250, null=False, verbose_name="密码")
     Majority = models.CharField(max_length=250, null=False, verbose_name="专业方向")
     Rewards = models.TextField(null=True, verbose_name="竞赛获奖")
     SchoolScores = models.CharField(max_length=250, null=True, verbose_name="学习成绩")
     Skills = models.TextField(null=True, verbose_name="技术栈")
-    ScientificExperience = models.TextField(null=False, verbose_name="科研经历")
+    ScientificExperience = models.TextField(null=True, verbose_name="科研经历")
     EnterpriseCertification = models.BooleanField(default=False, verbose_name="企业认证")
     CV = models.CharField(max_length=250, default="", verbose_name="简历")
 
@@ -25,28 +25,19 @@ class Tutor(models.Model):
     ID = models.AutoField(primary_key=True, null=False, verbose_name="主键")
     Name = models.CharField(max_length=250, null=False, verbose_name="姓名")
     School = models.CharField(max_length=250, null=False, verbose_name="学校")
-    Email = models.CharField(max_length=250, null=False, verbose_name="邮箱")
+    Email = models.CharField(max_length=250, null=False, unique=True, verbose_name="邮箱")
     Password = models.CharField(max_length=250, null=False, verbose_name="密码")
     Majority = models.CharField(max_length=250, null=False, verbose_name="专业方向")
-    Position = models.CharField(max_length=250, null=False, verbose_name="职称")
-    EductionExperience = models.TextField(null=False, verbose_name="教育经历")
-    Paper = models.CharField(max_length=250, null=False, verbose_name="论文发表")
+    Position = models.CharField(max_length=250, null=True, verbose_name="职称")
+    EductionExperience = models.TextField(null=True, verbose_name="教育经历")
+    Paper = models.CharField(max_length=250, null=True, verbose_name="论文发表")
+
+    def getPassword(self):
+        return self.Password
 
     class Meta:
         db_table = "tutor"
         verbose_name = "导师信息表"
-
-
-class Laboratory(models.Model):
-    ID = models.AutoField(primary_key=True, null=False, verbose_name="主键")
-    Name = models.CharField(max_length=250, null=False, verbose_name="名称")
-    School = models.CharField(max_length=250, null=False, verbose_name="学校")
-    Majority = models.CharField(max_length=250, null=False, verbose_name="专业方向")
-    Introduction = models.TextField(null=False, verbose_name="介绍")
-
-    class Meta:
-        db_table = "laboratory"
-        verbose_name = "实验室信息表"
 
 
 class Post(models.Model):
@@ -92,7 +83,7 @@ class Project(models.Model):
 class Administer(models.Model):
     ID = models.AutoField(primary_key=True, null=False, verbose_name="主键")
     Password = models.CharField(max_length=250, null=False, verbose_name="密码")
-    Email = models.CharField(max_length=250, null=False, verbose_name="邮箱")
+    Email = models.CharField(max_length=250, null=False, unique=True, verbose_name="邮箱")
 
     class Meta:
         db_table = "administer"
@@ -100,16 +91,6 @@ class Administer(models.Model):
 
 
 # Create your relation models here.
-class BelongLab(models.Model):
-    TutorID = models.ForeignKey(Tutor, on_delete=CASCADE, verbose_name="导师ID")
-    LabID = models.ForeignKey(Laboratory, on_delete=CASCADE, verbose_name="实验室ID")
-
-    class Meta:
-        unique_together = ("TutorID", "LabID")
-        db_table = "belonglab"
-        verbose_name = "导师归属实验室"
-
-
 class SelectProject(models.Model):
     StudentID = models.ForeignKey(Student, on_delete=CASCADE, verbose_name="学生ID")
     ProjectID = models.ForeignKey(Project, on_delete=CASCADE, verbose_name="项目ID")
