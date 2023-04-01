@@ -1,10 +1,21 @@
 import json
+<<<<<<< HEAD
 
 from django.http.response import JsonResponse
 from . import models
 from . import utils
 from . import token
 
+=======
+import math, random
+from django.http.response import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
+from . import models
+from . import utils
+from . import sendEmial
+def index(request):
+    return HttpResponse("hello world!")
+>>>>>>> c834234cd5a342089673cfc2588bd1109629f054
 
 def login(request):
     data = json.loads(request.body)
@@ -110,4 +121,24 @@ def sign(request):
             )
             data["status"] = 402
             print('i am in 6')
+<<<<<<< HEAD
     return JsonResponse(data)
+=======
+    return JsonResponse(data)
+
+def sendEmail(request):
+    #邮件主题
+    subject = u'注册验证码'
+    verifyKey = math.floor(1e5 * random.random())
+    t = f"your verify key is {verifyKey}"
+    html_content = str(t)
+    #收件人列表
+    to_list = ['2306164338@qq.com', ]
+    #根据模版发送邮件
+    result = sendEmial.send_html_email(subject, html_content, to_list)
+    data = {
+        "status": result
+    }
+    return HttpResponse("Hello")
+
+>>>>>>> c834234cd5a342089673cfc2588bd1109629f054
