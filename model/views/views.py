@@ -4,10 +4,10 @@ import random
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.core.cache import cache
-from . import models
-from . import utils
-from . import sendEmial
-from . import token
+from .. import models
+from .. import utils
+from .. import sendEmial
+from .. import token
 
 
 def login(request):
